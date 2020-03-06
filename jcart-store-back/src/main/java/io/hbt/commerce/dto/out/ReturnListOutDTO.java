@@ -1,10 +1,12 @@
 package io.hbt.commerce.dto.out;
 
+import io.swagger.models.auth.In;
+
 public class ReturnListOutDTO {
     private Integer returnId;
     private Byte status;
     private Long createTimestamp;
-    private Long orderId;
+    private Integer orderId;
     private Integer customerId;
     private String customerName;
 
@@ -32,14 +34,6 @@ public class ReturnListOutDTO {
         this.createTimestamp = createTimestamp;
     }
 
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
     public Integer getCustomerId() {
         return customerId;
     }
@@ -54,5 +48,13 @@ public class ReturnListOutDTO {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 }

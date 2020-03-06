@@ -1,6 +1,8 @@
 package io.hbt.commerce.dao;
 
+import com.github.pagehelper.Page;
 import io.hbt.commerce.po.Return;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -16,4 +18,8 @@ public interface ReturnMapper {
     int updateByPrimaryKeySelective(Return record);
 
     int updateByPrimaryKey(Return record);
+
+    // custom
+    Page<Return> selectPageByCustomerId(@Param("customerId") Integer customerId);
+
 }

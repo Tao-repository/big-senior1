@@ -1,5 +1,7 @@
 package io.hbt.commerce.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.hbt.commerce.dao.ReturnMapper;
 import io.hbt.commerce.po.Return;
 import io.hbt.commerce.service.ReturnService;
@@ -17,5 +19,12 @@ public class ReturnServiceImpl implements ReturnService {
         returnMapper.insertSelective(ireturn);
         Integer returnId = ireturn.getReturnId();
         return returnId;
+    }
+
+    @Override
+    public Page<Return> getPageByCustomerId(Integer customerId, Integer pageNum) {
+        PageHelper.startPage(pageNum,10);
+        Page<Return> page = returnMapper.selectPageByCustomerId(customerId);
+        return page;
     }
 }
