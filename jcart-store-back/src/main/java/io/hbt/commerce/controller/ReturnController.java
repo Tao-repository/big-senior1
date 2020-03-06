@@ -72,10 +72,28 @@ public class ReturnController {
     }
 
     @GetMapping("/getById")
-    public ReturnShowOutDTO getById(
-            @RequestParam Integer returnId
-    ){
-        return null;
+    public ReturnShowOutDTO getById(@RequestParam Integer returnId){
+        Return byId = returnService.getById(returnId);
+
+        ReturnShowOutDTO returnShowOutDTO = new ReturnShowOutDTO();
+
+        returnShowOutDTO.setReturnId(byId.getReturnId());
+        returnShowOutDTO.setOrderId(byId.getOrderId());
+        returnShowOutDTO.setOrderTimestamp(byId.getOrderTime().getTime());
+        returnShowOutDTO.setCustomerName(byId.getCustomerName());
+        returnShowOutDTO.setMobile(byId.getMobile());
+        returnShowOutDTO.setEmail(byId.getEmail());
+        returnShowOutDTO.setStatus(byId.getStatus());
+        returnShowOutDTO.setAction(byId.getAction());
+        returnShowOutDTO.setProductCode(byId.getProductCode());
+        returnShowOutDTO.setProductName(byId.getProductName());
+        returnShowOutDTO.setQuantity(byId.getQuantity());
+        returnShowOutDTO.setReason(byId.getReason());
+        returnShowOutDTO.setOpened(byId.getOpened());
+        returnShowOutDTO.setCreateTimestamp(byId.getCreateTime().getTime());
+        returnShowOutDTO.setUpdateTimestamp(byId.getUpdateTime().getTime());
+
+        return returnShowOutDTO;
     }
 
 }
