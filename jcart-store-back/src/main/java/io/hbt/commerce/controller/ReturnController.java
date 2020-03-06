@@ -6,6 +6,8 @@ import io.hbt.commerce.dto.out.PageOutDTO;
 import io.hbt.commerce.dto.out.ReturnListOutDTO;
 import io.hbt.commerce.dto.out.ReturnShowOutDTO;
 import io.hbt.commerce.po.Return;
+import io.hbt.commerce.po.ReturnHistory;
+import io.hbt.commerce.service.ReturnHistoryService;
 import io.hbt.commerce.service.ReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,9 @@ public class ReturnController {
 
     @Autowired
     ReturnService returnService;
+
+    @Autowired
+    private ReturnHistoryService returnHistoryService;
 
     @PostMapping("/apply")
     public Integer apply(
@@ -92,6 +97,8 @@ public class ReturnController {
         returnShowOutDTO.setOpened(byId.getOpened());
         returnShowOutDTO.setCreateTimestamp(byId.getCreateTime().getTime());
         returnShowOutDTO.setUpdateTimestamp(byId.getUpdateTime().getTime());
+
+        List<ReturnHistory> byReturnId = returnHistoryService.getByReturnId(returnId);
 
         return returnShowOutDTO;
     }
