@@ -11,11 +11,14 @@ import io.hbt.commerce.po.Administrator;
 import io.hbt.commerce.service.AdministratorService;
 import io.hbt.commerce.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import javax.xml.bind.DatatypeConverter;
+import java.security.SecureRandom;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,7 +30,18 @@ public class AdministratorController {
     AdministratorService administratorService;
 
     @Autowired
+    SecureRandom secureRandom;
+
+    @Autowired
+    JavaMailSender mailSender;
+
+    @Autowired
     private JWTUtil jwtUtil;
+
+    @Value("${spring.mail.username}")
+    private String fromEmail;
+
+    private Map<String, String> emailPwdResetCodeMap = new HashMap<>();
 
     @GetMapping("/login")
     public AdministratorLoginOutDTO login(
@@ -76,10 +90,21 @@ public class AdministratorController {
     }
 
     @GetMapping("/getPwdResetCode")
-    public String getPwdResetCode(
-            @RequestParam String email
-    ){
-        return null;
+    public void getPwdResetCode(@RequestParam String email) throws ClientException {
+        Administrator administrator = administratorService.getByEmail(email);
+        if (administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_EMAIL_NOT_EXIST_ERRMSG);
+        }
+        byte[] bytes = secureRandom.generateSeed(3);
+        String hex = DatatypeConverter.printHexBinary(bytes);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(email);
+        message.setSubject("jcart管理端管理员密码重置");
+        message.setText(hex);
+        mailSender.send(message);
+        //todo send messasge to MQ
+        emailPwdResetCodeMap.put(email, hex);
     }
 
     @PostMapping("/resetPwd")
