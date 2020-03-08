@@ -3,6 +3,7 @@ package io.hbt.commerce.controller;
 import com.github.pagehelper.Page;
 import io.hbt.commerce.dto.in.ReturnApplyInDTO;
 import io.hbt.commerce.dto.out.PageOutDTO;
+import io.hbt.commerce.dto.out.ReturnHistoryListOutDTO;
 import io.hbt.commerce.dto.out.ReturnListOutDTO;
 import io.hbt.commerce.dto.out.ReturnShowOutDTO;
 import io.hbt.commerce.po.Return;
@@ -99,6 +100,15 @@ public class ReturnController {
         returnShowOutDTO.setUpdateTimestamp(byId.getUpdateTime().getTime());
 
         List<ReturnHistory> byReturnId = returnHistoryService.getByReturnId(returnId);
+
+        List<Object> collect = byReturnId.stream().map(returnHistory -> {
+            ReturnHistoryListOutDTO returnHistoryListOutDTO = new ReturnHistoryListOutDTO();
+            returnHistoryListOutDTO.setTimeTamp(returnHistory.getTime().getTime());
+            returnHistoryListOutDTO.setReturnStatus(returnHistory.getReturnStatus());
+            returnHistoryListOutDTO.setComment(returnHistory.getComment());
+            return returnHistoryListOutDTO;
+        }).collect(Collectors.toList());
+        returnShowOutDTO.setReturnHistories(collect);
 
         return returnShowOutDTO;
     }

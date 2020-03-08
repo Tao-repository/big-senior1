@@ -110,6 +110,7 @@
     <include refid="Base_Column_List" />
     from jcart_return_history
     where return_id = #{returnId}
+    order by `time` desc
   </select>
 
 </mapper>

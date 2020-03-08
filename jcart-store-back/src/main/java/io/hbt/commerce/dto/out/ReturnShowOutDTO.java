@@ -1,5 +1,7 @@
 package io.hbt.commerce.dto.out;
 
+import java.util.List;
+
 public class ReturnShowOutDTO {
     private Integer returnId;
     private Integer orderId;
@@ -17,6 +19,15 @@ public class ReturnShowOutDTO {
     private String comment;
     private Long createTimestamp;
     private Long updateTimestamp;
+    private List returnHistories;
+
+    public List getReturnHistories() {
+        return returnHistories;
+    }
+
+    public void setReturnHistories(List returnHistories) {
+        this.returnHistories = returnHistories;
+    }
 
     public Integer getReturnId() {
         return returnId;
