@@ -22,7 +22,7 @@
     delete from jcart_return_history
     where return_history_id = #{returnHistoryId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="io.hbt.commerce.po.ReturnHistory">
+  <insert id="insert" parameterType="io.hbt.commerce.po.ReturnHistory" useGeneratedKeys="true" keyProperty="returnHistoryId">
     insert into jcart_return_history (return_history_id, return_id, time, 
       return_status, comment, customer_notified
       )
