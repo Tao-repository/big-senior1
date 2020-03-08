@@ -1,5 +1,6 @@
 package io.hbt.commerce.dao;
 
+import com.github.pagehelper.Page;
 import io.hbt.commerce.po.Return;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,9 @@ public interface ReturnMapper {
     int updateByPrimaryKeySelective(Return record);
 
     int updateByPrimaryKey(Return record);
+
+//    custom
+
+    Page<Return> search();
+
 }
