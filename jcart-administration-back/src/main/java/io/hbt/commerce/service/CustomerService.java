@@ -8,4 +8,6 @@ public interface CustomerService {
 
     Page<Customer> search(CustomerSearchInDTO customerSearchInDTO, Integer pageNum);
 
+    Customer getById(Integer customerId);
+
 }

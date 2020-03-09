@@ -25,4 +25,11 @@ public class CustomerServiceImpl implements CustomerService {
                         customerSearchInDTO.getStatus());
         return page;
     }
+
+    @Override
+    public Customer getById(Integer customerId) {
+        Customer customer = customerMapper.selectByPrimaryKey(customerId);
+        return customer;
+    }
+
 }
