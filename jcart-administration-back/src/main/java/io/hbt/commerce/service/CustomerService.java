@@ -2,6 +2,7 @@ package io.hbt.commerce.service;
 
 import com.github.pagehelper.Page;
 import io.hbt.commerce.dto.in.CustomerSearchInDTO;
+import io.hbt.commerce.dto.in.CustomerSetStatusInDTO;
 import io.hbt.commerce.po.Customer;
 
 public interface CustomerService {
@@ -10,4 +11,5 @@ public interface CustomerService {
 
     Customer getById(Integer customerId);
 
+    void setStatus(CustomerSetStatusInDTO customerSetStatusInDTO);
 }

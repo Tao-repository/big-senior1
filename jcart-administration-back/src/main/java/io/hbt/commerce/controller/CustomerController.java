@@ -2,6 +2,7 @@ package io.hbt.commerce.controller;
 
 import com.github.pagehelper.Page;
 import io.hbt.commerce.dto.in.CustomerSearchInDTO;
+import io.hbt.commerce.dto.in.CustomerSetStatusInDTO;
 import io.hbt.commerce.dto.out.CustomerListOutDTO;
 import io.hbt.commerce.dto.out.CustomerShowOutDTO;
 import io.hbt.commerce.dto.out.PageOutDTO;
@@ -76,11 +77,9 @@ public class CustomerController {
         return customerShowOutDTO;
     }
 
-    @PostMapping("/disable")
-    public void disable(
-            @RequestParam Integer customerId
-    ){
-
+    @PostMapping("/setStatus")
+    public void setStatus(@RequestBody CustomerSetStatusInDTO customerSetStatusInDTO){
+        customerService.setStatus(customerSetStatusInDTO);
     }
 
 }
