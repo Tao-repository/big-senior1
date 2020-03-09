@@ -2,7 +2,10 @@ package io.hbt.commerce.dao;
 
 import com.github.pagehelper.Page;
 import io.hbt.commerce.po.Return;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 @Repository
 public interface ReturnMapper {
@@ -21,5 +24,14 @@ public interface ReturnMapper {
 //    custom
 
     Page<Return> search();
+
+    Page<Return> search(@Param("returnId") Integer returnId,
+                        @Param("orderId") Long orderId,
+                        @Param("startTime") Date startTime,
+                        @Param("endTime") Date endTime,
+                        @Param("status") Byte status,
+                        @Param("productCode") String productCode,
+                        @Param("customerName") String customerName,
+                        @Param("productName") String productName);
 
 }
