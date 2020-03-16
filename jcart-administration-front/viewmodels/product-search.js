@@ -13,13 +13,36 @@ var app = new Vue({
             { value: 1, label: '上架' },
             { value: 2, label: '待审核' }
         ]
+
     },
     mounted() {
         console.log('view mounted');
         this.searchProduct();
     },
     methods: {
-        searchProduct(){
+        handleSearchClick() {
+            console.log('search click');
+            this.pageNum = 1;
+            this.searchProduct();
+        },
+        handleEdit(index, row) {
+            console.log('product edit click', index, row);
+            location.href = 'product-update.html?productId=' + row.productId;
+        },
+        handleClearClick() {
+            console.log('clear click');
+            this.productCode = '';
+            this.productName = '';
+            this.price = '';
+            this.stockQuantity = '';
+            this.selectedStatus = '';
+        },
+        handlePageChange(val) {
+            console.log('page change');
+            this.pageNum = val;
+            this.searchProduct();
+        },
+        searchProduct() {
             axios.get('/product/search', {
                 params: {
                     productCode: this.productCode,
@@ -37,19 +60,6 @@ var app = new Vue({
                 .catch(function (error) {
                     console.log(error);
                 });
-
-        },
-        handlePageChange(val){
-            console.log('page change');
-            this.pageNum = val;
-            this.searchProduct();
-        },
-        handleGoCreateClick(){
-            location.href='product-create.html';
-        },
-        handleGoUpdateClick(index,row){
-            console.log('to submit click', row);
-            location.href='product-update.html?productId='+row.productId;
         }
-    }   
+    }
 })

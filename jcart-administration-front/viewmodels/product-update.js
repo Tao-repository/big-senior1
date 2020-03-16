@@ -9,6 +9,7 @@ var app = new Vue({
         stockQuantity: '',
         rewordPoints: '',
         sortOrder: '',
+        productAbstract: '',
         description: '',
         selectedStatus: 1,
         selectedMainPic: '',
@@ -16,8 +17,8 @@ var app = new Vue({
         selectedOtherPics: [],
         otherPicUrls: [],
         statuses: [
-            { value: 0, label: '已下架' },
-            { value: 1, label: '已上架' },
+            { value: 0, label: '下架' },
+            { value: 1, label: '上架' },
             { value: 2, label: '待审核' }
         ],
         mainFileList: [],
@@ -26,21 +27,21 @@ var app = new Vue({
     mounted() {
         console.log('view mounted');
 
-        tinymce.init({
-            selector: '#mytextarea'
-        });
-
         var url = new URL(location.href);
         this.productId = url.searchParams.get("productId");
-
         if (!this.productId) {
-            alert('productId 不存在');
+            alert('productId is null');
             return;
         }
-       
+
         this.getProductById();
     },
     methods: {
+        handleUpdateClick() {
+            console.log('update click');
+            this.description = tinyMCE.activeEditor.getContent();
+            this.updateProduct();
+        },
         handleOnMainChange(val) {
             this.selectedMainPic = val.raw;
         },
@@ -67,7 +68,6 @@ var app = new Vue({
                     alert('上传失败');
                 });
         },
-
         handleOnOtherChange(file, fileList) {
             console.log('fileList', fileList);
             this.selectedOtherPics = fileList;
@@ -94,17 +94,14 @@ var app = new Vue({
                         console.log(response);
                         var url = response.data;
                         app.otherPicUrls.push(url);
-                        alert('上传成功');
                     })
                     .catch(function (error) {
                         console.log(error);
-                        alert('上传失败');
+                        alert('上床失败');
                     });
             });
-        },
-        handleUpdateClick(){
-            this.description = tinyMCE.activeEditor.getContent();
-            this.updateProduct();
+
+
         },
         updateProduct() {
             axios.post('/product/update', {
@@ -117,17 +114,16 @@ var app = new Vue({
                 mainPicUrl: this.mainPicUrl,
                 rewordPoints: this.rewordPoints,
                 sortOrder: this.sortOrder,
+                productAbstract: this.productAbstract,
                 description: this.description,
                 otherPicUrls: this.otherPicUrls
             })
                 .then(function (response) {
                     console.log(response);
                     alert('修改成功');
-                    location.href = 'product-search.html';
                 })
                 .catch(function (error) {
                     console.log(error);
-                    alert('修改失败');
                 });
         },
         getProductById() {
@@ -149,12 +145,16 @@ var app = new Vue({
                     app.rewordPoints = product.rewordPoints;
                     app.sortOrder = product.sortOrder;
                     app.mainPicUrl = product.mainPicUrl;
+                    app.productAbstract = product.productAbstract;
                     app.description = product.description;
+                    tinymce.init({
+                        selector: '#mytextarea'
+                    });
                     app.otherPicUrls = product.otherPicUrls;
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-        }      
+        }
     }
 })
